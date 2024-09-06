@@ -1,7 +1,3 @@
-" | \ | |/ _ \  |  _ \| |  | | | |/ ___|_ _| \ | |
-" |  \| | | | | | |_) | |  | | | | |  _ | ||  \| |
-" | |\  | |_| | |  __/| |__| |_| | |_| || || |\  |
-" |_| \_|\___/  |_|   |_____\___/ \____|___|_| \_|
 "                                                 
 " __     _____ __  __ ____   ____ 
 " \ \   / /_ _|  \/  |  _ \ / ___|
@@ -11,21 +7,61 @@
 "
 "
 "   Made by midlpan
-"                  Repository:
-"                             https://github.com/midlpan/no-plugin-vimrc
+"               Repository Link :
+"                                 https://github.com/midlpan/My-vimrc.git
+"
+
+""""""""""""""""""""""NOCOMPATIBILITY
+set nocompatible
 
 
 
+""""""""""""""""""""""PLUGINS"""""""""""""""""""""""""
+
+call plug#begin()
+Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdtree'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+call plug#end()
+
+""""""""""""""""""""""LSP"""""""""""""""""""""""""""""
+
+function! s:on_lsp_buffer_enabled() abort
+        setlocal omnifunc=lsp#complete
+endfunction
+
+""""Bash-lsp
+if executable('bash-language-server')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'bash-language-server',
+        \ 'cmd': {server_info->['bash-language-server', 'start']},
+        \ 'allowlist': ['sh', 'bash'],
+        \ })
+endif
+
+let g:lsp_diagnostics_enabled = 1
+
+""""""""""""""""""""""PLUGINS"""""""""""""""""""""""""
+""""" Set encondim
+set encoding=UTF-8
+
+
+""""""""""""""""""""""ASYNCOMPLETE
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 
 
 " DEFINE a leader character
 
-let maleader = ","
+let mapleader = ","
 
 
 " for disable the mouse delet the 'a' character
-set mouse=a
 
 """""""""""""""""""""""COLORS""""""""""""""""""""""""2
 " Basic color configurations
@@ -48,7 +84,7 @@ set termguicolors
 
 " set your colorscheme
 "[optional]
-colorscheme desert
+colorscheme tokyonight
 
 
 " enable highlight search pattern
@@ -84,17 +120,22 @@ set cursorcolumn
 
 
 """" Substitution of the NERDTREE
-""""""""""""""  Lex
-inoremap <c-b> <Esc>:Lex<cr>:vertical resize 30<cr>
-nnoremap <c-b> <Esc>:Lex<cr>:vertical resize 30<cr>
+"""""""""""""" NERDTree
+inoremap <c-b> <Esc>:NERDTree<cr>:vertical resize 26<cr>
+nnoremap <c-b> <Esc>:NERDTree<cr>:vertical resize 26<cr>
 " For a best archive finding
 set path+=**
 
+""""""""Shortcutin Split navigation
+map <C-h> <C-w>h 
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
 
 
 
 "" Open Terminal
-nnoremap <c-j> <Esc>:botright vertical terminal<CR>
+nnoremap <c-k> <Esc>:botright vertical terminal<CR>
 
 "" ';' Configurations
 nnoremap ; q/i 
@@ -190,8 +231,7 @@ inoremap <c-g> <Esc>:copen<cr>:set modifiable<cr>
 nnoremap <c-g> <Esc>:copen<cr>:set modifiable<cr>
 
 
-"""""""""""""""""AUTOPAIRS""""""""""""""""""
-
+""""""""AUTOPAIRS
 inoremap [ []<Left>
 inoremap ( ()<Left>
 inoremap ' ''<Left>
@@ -201,5 +241,5 @@ inoremap { {}<Left>
 
 
 
-
-
+""COLUMN
+set signcolumn=yes
